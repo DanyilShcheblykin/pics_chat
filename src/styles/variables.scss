@@ -1,0 +1,11 @@
+$main-back:linear-gradient(315deg, #fbb034 0%, #ffdd00 74%);
+$color: #FFFFFF;
+
+$container-max-width: 1280px;
+$container-side-distance: 40px;
+$container-width: calc(100% - calc(2 * $container-side-distance));
+
+//VIEWPORTS
+$tablet: 992px;
+$small-tablet: 768px;
+$mobile: 576px;
