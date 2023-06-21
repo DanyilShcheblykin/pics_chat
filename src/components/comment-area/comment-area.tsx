@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./comment-area.scss";
-import { CommentsData } from "../../App";
+import { CommentsData } from "../../pages/home/home";
 
 interface CommentAreaProps {
   setComments: React.Dispatch<React.SetStateAction<CommentsData[] | undefined>>;

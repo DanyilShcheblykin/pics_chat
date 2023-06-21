@@ -1,0 +1,10 @@
+.home-page {
+  padding: 25px 0 25px 0;
+  height: 100%;
+  .comments-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+}
