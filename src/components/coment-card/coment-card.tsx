@@ -22,8 +22,16 @@ const CommentCard = ({
     setShowCard(true);
   }, []);
 
+  const handleDelete = ()=>{
+    setShowCard(prev=>!prev)
+    setTimeout(()=>{
+      deleteCard(index)
+      setShowCard(true)
+    } , 300)
+  }
+
   return (
-    <div className={`comment-card ${showCard ? "appear" : ""}`}>
+    <div className={`comment-card ${showCard ? "appear" : "disappear"}`}>
       <div className="user-block">
         <div className="user-initials">
           <span>{initials}</span>
@@ -32,7 +40,7 @@ const CommentCard = ({
           <span>{name}</span>
         </div>
       </div>
-      <div onClick={() => deleteCard(index)} className="button-container">
+      <div onClick={handleDelete} className="button-container">
         <div className="delete-button">
           <div className="cross"></div>
         </div>
