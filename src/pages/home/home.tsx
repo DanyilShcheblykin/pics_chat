@@ -7,11 +7,11 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 
 export interface FetchedCommentsData {
   body: string;
-  user?: { username: string };
+  user: { username: string };
 }
 
 export interface CommentsData extends FetchedCommentsData {
-  user?: { username: string; initials: string };
+  user: { username: string; initials: string };
 }
 
 function HomePage() {
@@ -62,18 +62,20 @@ function HomePage() {
     <section className="home-page container">
       <div className="comments-container">
         <div className="comments">
-          <PerfectScrollbar>
-            {comments?.map(({ user, body }, index) => (
-              <ComentCard
-                key={index}
-                index={index}
-                deleteCard={deleteCard}
-                name={user?.username ?? ""}
-                comment={body}
-                initials={user?.initials ?? ""}
-              />
-            ))}
-          </PerfectScrollbar>
+          {comments && comments.length > 0 && (
+            <PerfectScrollbar>
+              {comments.map(({ user, body }, index) => (
+                <ComentCard
+                  key={index}
+                  index={index}
+                  deleteCard={deleteCard}
+                  name={user?.username ?? ""}
+                  comment={body}
+                  initials={user?.initials ?? ""}
+                />
+              ))}
+            </PerfectScrollbar>
+          )}
         </div>
 
         <div>
