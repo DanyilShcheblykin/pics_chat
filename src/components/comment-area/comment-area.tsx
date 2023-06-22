@@ -8,8 +8,30 @@ interface CommentAreaProps {
 
 const CommentArea = ({ setComments }: CommentAreaProps) => {
   const [text, setText] = useState<string>(
-    localStorage.getItem("savedText") || "" 
+    localStorage.getItem("savedText") || ""
   );
+
+  const names = [
+    "John Lan",
+    "Jane Ran",
+    "Alice Vina",
+    "Bob Lisa",
+    "Emily Laha",
+    "David Flor",
+  ];
+
+  function getRandomName() {
+    const randomIndex = Math.floor(Math.random() * names.length);
+    const randomName = names[randomIndex];
+    const splitedName = randomName.split("");
+    const nameInitial = splitedName[0][0].toUpperCase();
+    const secondNameInitial = splitedName[1][0].toUpperCase();
+    const initials = nameInitial + secondNameInitial;
+    return {
+      name: names[randomIndex],
+      initials: initials,
+    };
+  }
 
   const saveText = () => {
     console.log("Saving text:", text);
@@ -25,15 +47,19 @@ const CommentArea = ({ setComments }: CommentAreaProps) => {
   }, [text]);
 
   const addComment = () => {
-    setComments((prev) => {
+    const { name, initials } = getRandomName();
+    setComments((prev: CommentsData[] | undefined) => {
       if (prev && text) {
-        const newObj = { body: text };
+        const newObj: CommentsData = {
+          body: text,
+          user: { username: name, initials: initials },
+        };
         const newState = [...prev, newObj];
         return newState;
       }
       return prev;
     });
-    setText("")
+    setText("");
   };
 
   return (

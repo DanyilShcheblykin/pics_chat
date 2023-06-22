@@ -1,15 +1,16 @@
-import React from "react";
 import "./coment-card.scss";
 
 interface CommentCardProps {
   name: string;
+  initils: string;
   comment: string;
-  deleteCard: (index:number) => void;
+  deleteCard: (index: number) => void;
   index: number;
 }
 
 const CommentCard = ({
   name,
+  initils,
   comment,
   deleteCard,
   index,
@@ -18,13 +19,13 @@ const CommentCard = ({
     <div className="comment-card">
       <div className="user-block">
         <div className="user-initials">
-          <span>DA</span>
+          <span>{initils}</span>
         </div>
         <div className="user-name">
           <span>{name}</span>
         </div>
       </div>
-      <div onClick={()=> deleteCard(index)} className="button-container">
+      <div onClick={() => deleteCard(index)} className="button-container">
         <div className="delete-button">
           <div className="cross"></div>
         </div>
