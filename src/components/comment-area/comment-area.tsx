@@ -8,7 +8,7 @@ interface CommentAreaProps {
 
 const CommentArea = ({ setComments }: CommentAreaProps) => {
   const [text, setText] = useState<string>(
-    localStorage.getItem("savedText") || ""
+    () => localStorage.getItem("savedText") ?? ""
   );
 
   const names = [
@@ -20,22 +20,15 @@ const CommentArea = ({ setComments }: CommentAreaProps) => {
     "David Flor",
   ];
 
-  function getRandomName() {
+  const getRandomName = () => {
     const randomIndex = Math.floor(Math.random() * names.length);
-    const randomName = names[randomIndex];
-    const splitedName = randomName.split("");
-    const nameInitial = splitedName[0][0].toUpperCase();
-    const secondNameInitial = splitedName[1][0].toUpperCase();
-    const initials = nameInitial + secondNameInitial;
-    return {
-      name: names[randomIndex],
-      initials: initials,
-    };
-  }
+    const [name, secondName] = names[randomIndex].split(" ");
+    const initials = name[0].toUpperCase() + secondName[0].toUpperCase();
+    return { name: names[randomIndex], initials };
+  };
 
   const saveText = () => {
-    console.log("Saving text:", text);
-    localStorage.setItem("savedText", text ? text : "");
+    localStorage.setItem("savedText", text);
   };
 
   useEffect(() => {
@@ -48,11 +41,11 @@ const CommentArea = ({ setComments }: CommentAreaProps) => {
 
   const addComment = () => {
     const { name, initials } = getRandomName();
-    setComments((prev: CommentsData[] | undefined) => {
+    setComments((prev) => {
       if (prev && text) {
         const newObj: CommentsData = {
           body: text,
-          user: { username: name, initials: initials },
+          user: { username: name, initials },
         };
         const newState = [...prev, newObj];
         return newState;

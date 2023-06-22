@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import ComentCard from "../../components/coment-card/coment-card";
 import CommentArea from "../../components/comment-area/comment-area";
 import "./home.scss";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import "react-perfect-scrollbar/dist/css/styles.css";
 
 export interface FetchedCommentsData {
   body: string;
@@ -13,32 +15,36 @@ export interface CommentsData extends FetchedCommentsData {
 }
 
 function HomePage() {
+  const fetchedDataLimit = 3;
+  const API_URL = `https://dummyjson.com/comments?limit=${fetchedDataLimit}`;
+
   const [comments, setComments] = useState<Array<CommentsData>>();
 
   useEffect(() => {
-    fetch("https://dummyjson.com/comments?limit=3")
+    fetch(API_URL)
       .then((data) => data.json())
       .then((data) => {
-        console.log(data);
-        const newArray = data.comments.map((item: FetchedCommentsData) => {
-          const user = {
+        const newArray = data.comments.map((item: FetchedCommentsData) => ({
+          ...item,
+          user: {
             username: item.user?.username,
-            initials: getUserInitils(item.user?.username || ""),
-          };
-          return { ...item, user };
-        });
+            initials: getUserInitials(item.user?.username || ""),
+          },
+        }));
         setComments(newArray);
       });
   }, []);
 
   const deleteCard = (cardIndex: number) => {
-    const filtedComments = comments?.filter(
-      (item, index) => index !== cardIndex
-    );
-    setComments(filtedComments);
+    if (comments) {
+      const filteredComments = comments.filter(
+        (_, index) => index !== cardIndex
+      );
+      setComments(filteredComments);
+    }
   };
 
-  const getUserInitils = (name: string) => {
+  const getUserInitials = (name: string) => {
     const arrayNames = name.split(" ");
 
     const containSecondName = arrayNames.length > 1;
@@ -56,16 +62,20 @@ function HomePage() {
     <section className="home-page container">
       <div className="comments-container">
         <div className="comments">
-          {comments?.map((item, index) => (
-            <ComentCard
-              index={index}
-              deleteCard={deleteCard}
-              name={item.user?.username || ""}
-              comment={item.body}
-              initils={item.user?.initials || ""}
-            ></ComentCard>
-          ))}
+          <PerfectScrollbar>
+            {comments?.map(({ user, body }, index) => (
+              <ComentCard
+                key={index}
+                index={index}
+                deleteCard={deleteCard}
+                name={user?.username ?? ""}
+                comment={body}
+                initials={user?.initials ?? ""}
+              />
+            ))}
+          </PerfectScrollbar>
         </div>
+
         <div>
           <CommentArea setComments={setComments}></CommentArea>
         </div>

@@ -1,29 +1,24 @@
 .home-page {
-  padding: 25px 0 25px 0;
+  padding: 25px 0;
   height: 100%;
+
   .comments-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+
     .comments {
       max-height: 300px;
-      overflow: auto;
-      &::-webkit-scrollbar {
-        width: 8px; 
+      overflow-y: auto;
+      .ps__rail-y {
+        opacity: 1;
+        transition: opacity 0.2s ease-in-out;
       }
 
-      &::-webkit-scrollbar-track {
-        background-color: #f1f1f1; 
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background-color: #888; 
-        border-radius: 4px; 
-      }
-
-      &::-webkit-scrollbar-corner {
-        background-color: #f1f1f1; 
+      .ps__thumb-y {
+        background-color: red;
+        border-radius: 4px;
       }
     }
   }

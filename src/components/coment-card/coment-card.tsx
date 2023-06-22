@@ -1,8 +1,9 @@
+import { useEffect, useState } from "react";
 import "./coment-card.scss";
 
 interface CommentCardProps {
   name: string;
-  initils: string;
+  initials: string;
   comment: string;
   deleteCard: (index: number) => void;
   index: number;
@@ -10,16 +11,22 @@ interface CommentCardProps {
 
 const CommentCard = ({
   name,
-  initils,
+  initials,
   comment,
   deleteCard,
   index,
 }: CommentCardProps) => {
+  const [showCard, setShowCard] = useState(false);
+
+  useEffect(() => {
+    setShowCard(true);
+  }, []);
+
   return (
-    <div className="comment-card">
+    <div className={`comment-card ${showCard ? "appear" : ""}`}>
       <div className="user-block">
         <div className="user-initials">
-          <span>{initils}</span>
+          <span>{initials}</span>
         </div>
         <div className="user-name">
           <span>{name}</span>
