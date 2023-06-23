@@ -6,14 +6,14 @@ interface CommentCardProps {
   body: string;
   user: UserInfo;
   deleteCard: (index: number) => void;
-  index: number;
+  id: number;
 }
 
 const CommentCard = ({
   body: comment,
   user,
   deleteCard,
-  index,
+  id,
 }: CommentCardProps) => {
   const [showCard, setShowCard] = useState(false);
 
@@ -23,13 +23,13 @@ const CommentCard = ({
     setShowCard(true);
   }, []);
 
-  const handleDelete = ()=>{
-    setShowCard(prev=>!prev)
-    setTimeout(()=>{
-      deleteCard(index)
-      setShowCard(true)
-    } , 300)
-  }
+  const handleDelete = () => {
+    setShowCard((prev) => !prev);
+    setTimeout(() => {
+      deleteCard(id);
+      setShowCard(true);
+    }, 300);
+  };
 
   return (
     <div className={`comment-card ${showCard ? "appear" : "disappear"}`}>

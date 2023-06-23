@@ -5,11 +5,13 @@ import "./home.scss";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 
-export interface UserInfo{
-  username: string; initials: string 
+export interface UserInfo {
+  username: string;
+  initials: string;
 }
 
 export interface FetchedCommentsData {
+  id: number;
   body: string;
   user: { username: string };
 }
@@ -18,10 +20,10 @@ export interface CommentsData extends FetchedCommentsData {
   user: { username: string; initials: string };
 }
 
-function HomePage() {
-  const fetchedDataLimit = 3;
-  const API_URL = `https://dummyjson.com/comments?limit=${fetchedDataLimit}`;
+export const FETCHED_DATA_LIMIT = 3;
 
+function HomePage() {
+  const API_URL = `https://dummyjson.com/comments?limit=${FETCHED_DATA_LIMIT}`;
   const [comments, setComments] = useState<Array<CommentsData>>();
 
   useEffect(() => {
@@ -39,15 +41,14 @@ function HomePage() {
       });
   }, []);
 
-  const deleteCard = (cardIndex: number) => {
+  const deleteCard = (cardId: number) => {
     if (comments) {
       const filteredComments = comments.filter(
-        (_, index) => index !== cardIndex
+        (comment) => comment.id !== cardId
       );
       setComments(filteredComments);
     }
   };
-
   const getUserInitials = (name: string) => {
     const arrayNames = name.split(" ");
 
@@ -71,8 +72,7 @@ function HomePage() {
               {comments.map((commentInfo, index) => (
                 <ComentCard
                   {...commentInfo}
-                  key={index}
-                  index={index}
+                  key={commentInfo.id}
                   deleteCard={deleteCard}
                 />
               ))}

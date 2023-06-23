@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./comment-area.scss";
-import { CommentsData } from "../../pages/home/home";
+import { CommentsData, FETCHED_DATA_LIMIT } from "../../pages/home/home";
 
 interface CommentAreaProps {
   setComments: React.Dispatch<React.SetStateAction<CommentsData[] | undefined>>;
 }
 
 const CommentArea = ({ setComments }: CommentAreaProps) => {
+  const [cardId, setCardId] = useState<number>(FETCHED_DATA_LIMIT);
   const [text, setText] = useState<string>(
     () => localStorage.getItem("savedText") ?? ""
   );
@@ -27,11 +28,10 @@ const CommentArea = ({ setComments }: CommentAreaProps) => {
     return { name: names[randomIndex], initials };
   };
 
-  const saveText = () => {
-    localStorage.setItem("savedText", text);
-  };
-
   useEffect(() => {
+    const saveText = () => {
+      localStorage.setItem("savedText", text);
+    };
     window.addEventListener("beforeunload", saveText);
 
     return () => {
@@ -43,7 +43,10 @@ const CommentArea = ({ setComments }: CommentAreaProps) => {
     const { name, initials } = getRandomName();
     setComments((prev) => {
       if (prev && text) {
+        const newCardId = cardId + 1;
+        setCardId(newCardId);
         const newObj: CommentsData = {
+          id: newCardId,
           body: text,
           user: { username: name, initials },
         };
