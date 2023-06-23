@@ -1,22 +1,23 @@
 import { useEffect, useState } from "react";
 import "./coment-card.scss";
+import { UserInfo } from "../../pages/home/home";
 
 interface CommentCardProps {
-  name: string;
-  initials: string;
-  comment: string;
+  body: string;
+  user: UserInfo;
   deleteCard: (index: number) => void;
   index: number;
 }
 
 const CommentCard = ({
-  name,
-  initials,
-  comment,
+  body: comment,
+  user,
   deleteCard,
   index,
 }: CommentCardProps) => {
   const [showCard, setShowCard] = useState(false);
+
+  const { username, initials } = user;
 
   useEffect(() => {
     setShowCard(true);
@@ -37,7 +38,7 @@ const CommentCard = ({
           <span>{initials}</span>
         </div>
         <div className="user-name">
-          <span>{name}</span>
+          <span>{username}</span>
         </div>
       </div>
       <div onClick={handleDelete} className="button-container">
